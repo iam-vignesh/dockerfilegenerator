@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dockerfile Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-center">Dockerfile Generator</h1>
+        <form id="dockerfileForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div>
+                    <label for="from" class="block text-sm font-medium mb-1">FROM</label>
+                    <input type="text" id="from" name="from" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="python:3.10-slim">
+                </div>
+                <div>
+                    <label for="label" class="block text-sm font-medium mb-1">LABEL</label>
+                    <input type="text" id="label" name="label" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="version='1.0'">
+                </div>
+                <div>
+                    <label for="env" class="block text-sm font-medium mb-1">ENV</label>
+                    <input type="text" id="env" name="env" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="APP_HOME /usr/src/app">
+                </div>
+                <div>
+                    <label for="workdir" class="block text-sm font-medium mb-1">WORKDIR</label>
+                    <input type="text" id="workdir" name="workdir" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="/app">
+                </div>
+                <div>
+                    <label for="copy" class="block text-sm font-medium mb-1">COPY</label>
+                    <input type="text" id="copy" name="copy" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="/src /target">
+                </div>
+                <div>
+                    <label for="add" class="block text-sm font-medium mb-1">ADD</label>
+                    <input type="text" id="add" name="add" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="file.tar.gz /app">
+                </div>
+                <div>
+                    <label for="run" class="block text-sm font-medium mb-1">RUN</label>
+                    <input type="text" id="run" name="run" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="pip install">
+                </div>
+                <div>
+                    <label for="cmd" class="block text-sm font-medium mb-1">CMD</label>
+                    <input type="text" id="cmd" name="cmd" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="['python', 'app.py']">
+                </div>
+                <div>
+                    <label for="entrypoint" class="block text-sm font-medium mb-1">ENTRYPOINT</label>
+                    <input type="text" id="entrypoint" name="entrypoint" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="['python', 'app.py']">
+                </div>
+                <div>
+                    <label for="expose" class="block text-sm font-medium mb-1">EXPOSE</label>
+                    <input type="text" id="expose" name="expose" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="3000">
+                </div>
+                <div>
+                    <label for="volume" class="block text-sm font-medium mb-1">VOLUME</label>
+                    <input type="text" id="volume" name="volume" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="/data">
+                </div>
+                <div>
+                    <label for="user" class="block text-sm font-medium mb-1">USER</label>
+                    <input type="text" id="user" name="user" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="serviceuser">
+                </div>
+                <div>
+                    <label for="arg" class="block text-sm font-medium mb-1">ARG</label>
+                    <input type="text" id="arg" name="arg" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="VERSION=1.0">
+                </div>
+                <div>
+                    <label for="onbuild" class="block text-sm font-medium mb-1">ONBUILD</label>
+                    <input type="text" id="onbuild" name="onbuild" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="RUN some command">
+                </div>
+                <div>
+                    <label for="stopsignal" class="block text-sm font-medium mb-1">STOPSIGNAL</label>
+                    <input type="text" id="stopsignal" name="stopsignal" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="SIGTERM">
+                </div>
+                <div>
+                    <label for="healthcheck" class="block text-sm font-medium mb-1">HEALTHCHECK</label>
+                    <input type="text" id="healthcheck" name="healthcheck" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="CMD curl -f http://localhost/">
+                </div>
+                <div>
+                    <label for="shell" class="block text-sm font-medium mb-1">SHELL</label>
+                    <input type="text" id="shell" name="shell" class="w-full bg-gray-800 rounded-md p-2 focus:ring-2 focus:ring-blue-500" placeholder="['/bin/bash', '-c']">
+                </div>
+            </div>
+            <div class="flex justify-center mt-8">
+                <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-300">
+                    Generate Dockerfile
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('dockerfileForm');
+            form.addEventListener('submit', handleSubmit);
+        });
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const dockerfileContent = generateDockerfile(formData);
+            downloadDockerfile(dockerfileContent);
+        }
+
+        function generateDockerfile(formData) {
+            let dockerfile = '';
+            const instructions = [
+                'FROM', 'LABEL', 'ENV', 'WORKDIR', 'COPY', 'ADD', 'RUN', 'CMD', 'ENTRYPOINT',
+                'EXPOSE', 'VOLUME', 'USER', 'ARG', 'ONBUILD', 'STOPSIGNAL', 'HEALTHCHECK', 'SHELL'
+            ];
+
+            instructions.forEach(instruction => {
+                const value = formData.get(instruction.toLowerCase());
+                if (value) {
+                    if (instruction === 'CMD' || instruction === 'ENTRYPOINT' || instruction === 'SHELL') {
+                        dockerfile += `${instruction} [${value}]\n`;
+                    } else {
+                        dockerfile += `${instruction} ${value}\n`;
+                    }
+                }
+            });
+
+            return dockerfile.trim();
+        }
+
+        function downloadDockerfile(content) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Dockerfile';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
